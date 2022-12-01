@@ -34,7 +34,10 @@ while cam.isOpened():
         data = pickle.dumps(frame, 0)
         response = requests.post(test_url, data=frame.tostring(), headers=headers)
         if response.status_code == 200:
-            print('Encontrou')
-            print(jsonpickle.decode(response.text))
+          print('Placa válida')
+          print(jsonpickle.decode(response.text))
+          break
+        elif response.status_code == 100:
+          print('Placa inválida')
 
 cam.release()
