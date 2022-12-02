@@ -4,6 +4,7 @@ import time
 import pickle
 import requests
 import jsonpickle
+import json 
 
 addr = 'http://127.0.0.1:5000'
 test_url = addr + '/api/test'
@@ -34,10 +35,13 @@ while cam.isOpened():
         data = pickle.dumps(frame, 0)
         response = requests.post(test_url, data=frame.tostring(), headers=headers)
         if response.status_code == 200:
+          jsonPlate = json.loads(response.text)
+          textPlate = jsonPlate['plate']
           print('Placa válida')
-          print(jsonpickle.decode(response.text))
+          print(textPlate)
           break
         elif response.status_code == 100:
           print('Placa inválida')
+          print(textPlate)
 
 cam.release()
